@@ -105,7 +105,32 @@ function atualizar() {
 function abrir()  { $("gaveta").classList.add("ativa");    $("fundo").classList.add("ativo"); }
 function fechar() { $("gaveta").classList.remove("ativa"); $("fundo").classList.remove("ativo"); }
 
+function validarCampos() {
+  const campos = [
+    { el: $("nomeCliente"), ok: $("nomeCliente").value.trim().length >= 2,  msg: "Digite seu nome." },
+    { el: $("endereco"),    ok: $("endereco").value.trim().length >= 5,    msg: "Digite o endereço de entrega." },
+    { el: $("pagamento"),   ok: $("pagamento").value !== "",               msg: "Escolha a forma de pagamento." }
+  ];
+  campos.forEach(c => c.el.classList.toggle("invalido", !c.ok));
+  const erros = campos.filter(c => !c.ok);
+  if (erros.length) {
+    $("erro").textContent = erros.length === 1 ? erros[0].msg : "Preencha nome, endereço e forma de pagamento.";
+    erros[0].el.focus();
+    return false;
+  }
+  $("erro").textContent = "";
+  return true;
+}
+
+["nomeCliente", "endereco", "pagamento"].forEach(id => {
+  const limpar = () => { $(id).classList.remove("invalido"); $("erro").textContent = ""; };
+  $(id).addEventListener("input", limpar);
+  $(id).addEventListener("change", limpar);
+});
+
 function finalizarPedido() {
+  if (!validarCampos()) return;
+
   let total = 0;
   let msg = `Olá! Gostaria de fazer este pedido na ${CONFIG.nomeLoja}:\n\n`;
 
@@ -118,13 +143,9 @@ function finalizarPedido() {
   });
 
   msg += `\n*Total: ${dinheiro(total)}*`;
-
-  const nome = $("nomeCliente").value.trim();
-  const end = $("endereco").value.trim();
-  const pag = $("pagamento").value.trim();
-  if (nome) msg += `\n\nNome: ${nome}`;
-  if (end)  msg += `\nEndereço: ${end}`;
-  if (pag)  msg += `\nPagamento: ${pag}`;
+  msg += `\n\nNome: ${$("nomeCliente").value.trim()}`;
+  msg += `\nEndereço: ${$("endereco").value.trim()}`;
+  msg += `\nPagamento: ${$("pagamento").value}`;
 
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`, "_blank");
 }

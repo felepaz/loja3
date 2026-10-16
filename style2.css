@@ -29,8 +29,8 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 40px; }
 .vazio { color: #777; text-align: center; margin-top: 30px; }
 .item { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid #eee; font-size: .9rem; }
 .item .qtd { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-.item .qtd button { width: 26px; height: 26px; border: 1px solid #000; background: #fff; border-radius: 4px; cursor: pointer; font-weight: 700; }
-.item .remover { background: none; border: 0; color: #777; cursor: pointer; font-size: .8rem; text-decoration: underline; }
+.item .qtd button:not(.remover) { width: 26px; height: 26px; border: 1px solid #000; background: #fff; border-radius: 4px; cursor: pointer; font-weight: 700; }
+.item .qtd .remover { width: auto; height: auto; padding: 0 4px; border: 0; background: none; color: #777; cursor: pointer; font-size: .8rem; font-weight: 400; text-decoration: underline; }
 .gaveta-base { padding: 16px; border-top: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; }
 .gaveta-base input { padding: 10px; border: 1px solid #bbb; border-radius: 6px; font-size: .95rem; }
 .total { font-size: 1.1rem; margin-bottom: 4px; }
@@ -41,3 +41,8 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 40px; }
 
 /* Fotos sempre coloridas */
 img { filter: none !important; -webkit-filter: none !important; opacity: 1 !important; }
+
+/* Campos obrigatórios */
+.gaveta-base input, .gaveta-base select { padding: 10px; border: 1px solid #bbb; border-radius: 6px; font-size: .95rem; background: #fff; color: #111; width: 100%; }
+.gaveta-base .invalido { border-color: #d00; background: #fff5f5; }
+.erro { color: #d00; font-size: .85rem; min-height: 1.1em; }
